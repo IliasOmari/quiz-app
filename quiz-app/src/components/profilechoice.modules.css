@@ -1,0 +1,8 @@
+.card-container {
+  max-width: 500px;
+  min-width: 250px;
+  background: #ffffff;
+  border-radius: 4px;
+  margin-top: 200px;
+  padding: 30px 60px;
+}
