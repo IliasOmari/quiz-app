@@ -1,7 +1,6 @@
-import React, { useContext, useEffect, useState } from "react";
-import { quiz } from "../quiz";
+import React, { useEffect, useState } from "react";
+
 import "../components/quiz.modules.css";
-import { socketContext } from "..";
 import { useParams } from "react-router-dom";
 import { io } from "socket.io-client";
 import Confetti from "react-confetti";
@@ -30,7 +29,6 @@ const Quiz = () => {
     questions: [{ choices: [], correctAnswer: "", question: "" }],
   });
   useEffect(() => {
-
     socket.emit("nameQuiz", nameQuiz);
     return () => {
       socket.off("nameQuiz");
@@ -38,7 +36,6 @@ const Quiz = () => {
   }, []);
   useEffect(() => {
     socket.on("getQuestionerData", (data) => {
-   
       setParty(data);
     });
 
