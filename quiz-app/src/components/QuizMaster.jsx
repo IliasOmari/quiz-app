@@ -100,8 +100,19 @@ function QuizMaster() {
               ))}
             </Form.Select>
           </Form.Group>
-          <Button onClick={handleSaveQuestion}>Add question</Button>
-          <Button onClick={sendQuestioner}>Save</Button>
+
+          <Button
+            onClick={handleSaveQuestion}
+            style={{ display: "flex", justifyContent: "center" }}
+          >
+            Add question
+          </Button>
+          <Button
+            onClick={sendQuestioner}
+            style={{ display: "flex", justifyContent: "center" }}
+          >
+            Save
+          </Button>
         </Form>
       </Card>
     </>
