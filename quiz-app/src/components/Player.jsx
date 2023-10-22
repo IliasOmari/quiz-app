@@ -1,9 +1,6 @@
-import React, { useContext, useEffect, useState } from "react";
-import Quiz from "./Quiz.jsx";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Button from "react-bootstrap/Button";
-import Card from "react-bootstrap/Card";
-import { socketContext } from "../index.js";
 import { io } from "socket.io-client";
 
 const Player = () => {
@@ -19,7 +16,7 @@ const Player = () => {
 
   useEffect(() => {
     socket.on("getQuestioner", (data) => {
-      if (data.length != 0) {
+      if (data.length !== 0) {
         setQuizList(data);
         setIsEmpty(false);
       }
