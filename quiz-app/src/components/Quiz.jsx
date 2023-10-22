@@ -9,6 +9,7 @@ import useWindowSize from "react-use/lib/useWindowSize";
 import useSound from "use-sound";
 import Yay from "./yay.mp3";
 
+
 const Quiz = () => {
   const socket = io("http://localhost:3001/player/party");
   const { width, height } = useWindowSize();
@@ -114,6 +115,7 @@ const Quiz = () => {
         <div className="result">
           {play()}
           <Confetti width={width} height={height} />
+
           <h3>Results</h3>
           <p>
             Total Questions: <span>{questions.length}</span>
@@ -127,6 +129,8 @@ const Quiz = () => {
           <p>
             Wrong Answers:<span> {result.wrongAnswers}</span>
           </p>
+
+          <button>Go Back</button>
         </div>
       )}
     </div>

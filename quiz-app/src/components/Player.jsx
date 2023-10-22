@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import { io } from "socket.io-client";
+import "../components/quiz.modules.css";
 
 const Player = () => {
   const socket = io("http://localhost:3001/player");
@@ -34,7 +35,7 @@ const Player = () => {
       </h1>
 
       {isEmpty ? (
-        <p>No quizzes at the moment</p>
+        <p>No quizzes at the moment 😢</p>
       ) : (
         quizList.map((el, index) => (
           <div
@@ -48,11 +49,19 @@ const Player = () => {
               borderRadius: "10px",
               alignItems: "center",
               marginBottom: "20px",
+              justifyContent: "space-between",
             }}
           >
-            <h3 style={{ marginBottom: "0px" }}>Quiz of {el.name}</h3>
+            <h3
+              style={{
+                marginBottom: "0px",
+                fontSize: "20px",
+              }}
+            >
+              Quiz of {el.name}
+            </h3>
             <Link to={`/player/${el.name}`}>
-              <Button>Join</Button>
+              <Button style={{}}>Join</Button>
             </Link>
           </div>
         ))
