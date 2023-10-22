@@ -16,9 +16,9 @@ io.on("connection", (socket) => {
 });
 
 io.of("/player").on("connection", (socket) => {
-  console.log("Connected in the players lobby");
+
   socket.on("nameQuiz", (data) => {
-    console.log(data);
+
     const party = questioner.find((el) => el.name == data);
     socket.join(data);
     if (party) {
@@ -31,7 +31,6 @@ io.of("/player").on("connection", (socket) => {
 });
 
 io.of("/player/party").on("connection", (socket) => {
-  console.log("Connected in the lobby");
   socket.on("nameQuiz", (data) => {
     const party = questioner.find((el) => el.name == data);
     if (party) {
@@ -40,5 +39,4 @@ io.of("/player/party").on("connection", (socket) => {
   });
 });
 server.listen(3001, () => {
-  console.log("Server is running on port 3001");
 });

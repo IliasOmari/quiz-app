@@ -30,7 +30,7 @@ const Quiz = () => {
     questions: [{ choices: [], correctAnswer: "", question: "" }],
   });
   useEffect(() => {
-    console.log("mount");
+
     socket.emit("nameQuiz", nameQuiz);
     return () => {
       socket.off("nameQuiz");
@@ -38,7 +38,7 @@ const Quiz = () => {
   }, []);
   useEffect(() => {
     socket.on("getQuestionerData", (data) => {
-      console.log(data);
+   
       setParty(data);
     });
 
@@ -47,7 +47,6 @@ const Quiz = () => {
     };
   }, [socket]);
   let { questions } = party;
-  console.log(party);
   let { question, choices, correctAnswer } = questions[activeQuestion];
   const onClickNext = () => {
     setSelectedAnswerIndex(null);

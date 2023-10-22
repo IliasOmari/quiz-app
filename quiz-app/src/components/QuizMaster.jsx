@@ -7,7 +7,6 @@ import { socketContext } from "..";
 
 function QuizMaster() {
   const socket = useContext(socketContext);
-  console.log(socket);
   const [question, setQuestion] = useState("");
   const [options, setOptions] = useState(["", "", "", ""]);
   const [correctAnswer, setCorrectAnswer] = useState(0);
