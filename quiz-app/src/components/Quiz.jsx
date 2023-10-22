@@ -8,7 +8,6 @@ import { v4 as uuidv4 } from "uuid";
 import useWindowSize from "react-use/lib/useWindowSize";
 import useSound from "use-sound";
 import Yay from "./yay.mp3";
-//source: https://www.codevertiser.com/quiz-app-using-reactjs/
 
 const Quiz = () => {
   const socket = io("http://localhost:3001/player/party");
