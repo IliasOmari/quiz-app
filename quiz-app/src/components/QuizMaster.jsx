@@ -1,17 +1,18 @@
-import React, { useState, useEffect } from "react";
-import io from "socket.io-client";
+import React, { useContext, useEffect, useState } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import InputGroup from "react-bootstrap/InputGroup";
 import Card from "react-bootstrap/Card";
-
-const socket = io("http://localhost:3001");
+import { socketContext } from "..";
 
 function QuizMaster() {
+  const socket = useContext(socketContext);
+  console.log(socket);
   const [question, setQuestion] = useState("");
   const [options, setOptions] = useState(["", "", "", ""]);
   const [correctAnswer, setCorrectAnswer] = useState(0);
   const [questions, setQuestions] = useState([]);
+  const [name, setName] = useState("");
 
   const handleQuestion = (e) => {
     setQuestion(e.target.value);
@@ -28,30 +29,29 @@ function QuizMaster() {
   };
 
   const handleSaveQuestion = () => {
-    socket.emit("sendMessage", { questions });
-
     const isQuestionValid =
       question.trim() !== "" && options.some((option) => option.trim() !== "");
 
     if (isQuestionValid) {
       const newQuestion = {
         question,
-        options,
+        choices: options,
         correctAnswer,
       };
       setQuestions((prev) => [...prev, newQuestion]);
-      console.log(questions);
       setQuestion("");
       setOptions(["", "", "", ""]);
       setCorrectAnswer(0);
     }
   };
 
-  useEffect(() => {
-    socket.on("receiveMessage", (data) => {
-      alert(data.message);
-    });
-  }, [socket]);
+  const sendQuestioner = () => {
+    const questioner = {
+      questions,
+      name,
+    };
+    socket.emit("sendQuestioner", questioner);
+  };
 
   return (
     <>
@@ -59,6 +59,14 @@ function QuizMaster() {
         <Card.Title className="text-center">Quizmaster</Card.Title>
 
         <Form>
+          <Form.Group className="mb-3">
+            <Form.Label htmlFor="disabledTextInput">Name Quiz</Form.Label>
+            <Form.Control
+              id="disabledTextInput"
+              placeholder="type a name for the quiz"
+              onChange={(e) => setName(e.target.value)}
+            />
+          </Form.Group>
           <Form.Group className="mb-3">
             <Form.Label htmlFor="disabledTextInput">Question:</Form.Label>
             <Form.Control
@@ -85,10 +93,7 @@ function QuizMaster() {
 
           <Form.Group className="mb-3">
             <Form.Label htmlFor="disabledSelect">Correct answer:</Form.Label>
-            <Form.Select
-              value={correctAnswer}
-              onChange={handleCorrectAnswer}
-            >
+            <Form.Select value={correctAnswer} onChange={handleCorrectAnswer}>
               {options.map((option, index) => (
                 <option key={index} value={index}>
                   {`Answer ${index + 1}`}
@@ -96,22 +101,10 @@ function QuizMaster() {
               ))}
             </Form.Select>
           </Form.Group>
-
-          <Button onClick={handleSaveQuestion}>Save</Button>
+          <Button onClick={handleSaveQuestion}>Add question</Button>
+          <Button onClick={sendQuestioner}>Save</Button>
         </Form>
       </Card>
-
-      <ul>
-        {questions.map((q, index) => (
-          <li key={index}>
-            Vraag: {q.question}
-            <br />
-            Antwoordopties: {q.options.join(", ")}
-            <br />
-            Juiste antwoord: {`Antwoordoptie ${q.correctAnswer + 1}`}
-          </li>
-        ))}
-      </ul>
     </>
   );
 }

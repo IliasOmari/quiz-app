@@ -4,6 +4,7 @@ import App from "../App";
 import { createBrowserRouter } from "react-router-dom";
 import QuizMaster from "../components/QuizMaster";
 import Player from "../components/Player";
+import Quiz from "../components/Quiz";
 
 const router = createBrowserRouter([
   {
@@ -17,6 +18,11 @@ const router = createBrowserRouter([
   {
     path: "/player",
     element: <Player />,
+  },
+
+  {
+    path: "/player/:nameQuiz",
+    element: <Quiz />,
   },
 ]);
 

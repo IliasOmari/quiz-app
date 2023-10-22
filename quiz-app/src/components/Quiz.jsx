@@ -1,12 +1,20 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { quiz } from "../quiz";
 import "../components/quiz.modules.css";
-
-
+import { socketContext } from "..";
+import { useParams } from "react-router-dom";
+import { io } from "socket.io-client";
+import Confetti from "react-confetti";
+import { v4 as uuidv4 } from "uuid";
+import useWindowSize from "react-use/lib/useWindowSize";
+import useSound from "use-sound";
+import Yay from "./yay.mp3";
 //source: https://www.codevertiser.com/quiz-app-using-reactjs/
 
 const Quiz = () => {
-
+  const socket = io("http://localhost:3001/player/party");
+  const { width, height } = useWindowSize();
+  const { nameQuiz } = useParams();
   const [activeQuestion, setActiveQuestion] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState("");
   const [showResult, setShowResult] = useState(false);
@@ -16,11 +24,31 @@ const Quiz = () => {
     correctAnswers: 0,
     wrongAnswers: 0,
   });
-  
-  const { questions } = quiz;
-  const { question, choices, correctAnswer } = questions[activeQuestion];
+  const [play] = useSound(Yay);
 
+  const [party, setParty] = useState({
+    questions: [{ choices: [], correctAnswer: "", question: "" }],
+  });
+  useEffect(() => {
+    console.log("mount");
+    socket.emit("nameQuiz", nameQuiz);
+    return () => {
+      socket.off("nameQuiz");
+    };
+  }, []);
+  useEffect(() => {
+    socket.on("getQuestionerData", (data) => {
+      console.log(data);
+      setParty(data);
+    });
 
+    return () => {
+      socket.off("getQuestionerData");
+    };
+  }, [socket]);
+  let { questions } = party;
+  console.log(party);
+  let { question, choices, correctAnswer } = questions[activeQuestion];
   const onClickNext = () => {
     setSelectedAnswerIndex(null);
     setResult((prev) =>
@@ -32,8 +60,6 @@ const Quiz = () => {
           }
         : { ...prev, wrongAnswers: prev.wrongAnswers + 1 }
     );
-
-
 
     if (activeQuestion !== questions.length - 1) {
       setActiveQuestion((prev) => prev + 1);
@@ -71,7 +97,7 @@ const Quiz = () => {
             {choices.map((answer, index) => (
               <li
                 onClick={() => onAnswerSelected(answer, index)}
-                key={answer}
+                key={uuidv4()}
                 className={
                   selectedAnswerIndex === index ? "selected-answer" : null
                 }
@@ -89,9 +115,10 @@ const Quiz = () => {
             </button>
           </div>
         </div>
-
       ) : (
         <div className="result">
+          {play()}
+          <Confetti width={width} height={height} />
           <h3>Results</h3>
           <p>
             Total Questions: <span>{questions.length}</span>
