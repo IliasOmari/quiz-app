@@ -27,7 +27,7 @@ const Player = () => {
     };
   }, [socket]);
   return (
-    <div>
+    <div id="home">
       <h1
         style={{ textAlign: "center", marginTop: "20px", marginBottom: "20px" }}
       >

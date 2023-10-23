@@ -16,6 +16,10 @@ body {
   padding: 0 30px;
 }
 
+#home {
+  margin-top: -500px;
+}
+
 .quiz-container {
   background: #ffffff;
   border-radius: 4px;
