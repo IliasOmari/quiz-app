@@ -8,8 +8,7 @@ import { v4 as uuidv4 } from "uuid";
 import useWindowSize from "react-use/lib/useWindowSize";
 import useSound from "use-sound";
 import Yay from "./yay.mp3";
-
-
+import { Link } from "react-router-dom";
 const Quiz = () => {
   const socket = io("http://localhost:3001/player/party");
   const { width, height } = useWindowSize();
@@ -130,7 +129,10 @@ const Quiz = () => {
             Wrong Answers:<span> {result.wrongAnswers}</span>
           </p>
 
-          <button>Go Back</button>
+          <Link to={"/player"}>
+            {" "}
+            <button>Go Back</button>
+          </Link>
         </div>
       )}
     </div>
