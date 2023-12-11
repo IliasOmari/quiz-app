@@ -5,7 +5,7 @@ import { io } from "socket.io-client";
 import "../components/quiz.modules.css";
 
 const Player = () => {
-  const socket = io("http://localhost:3001/player");
+  const socket = io("https://quizserver-y6dq.onrender.com/player");
   const [quizList, setQuizList] = useState([]);
   const [isEmpty, setIsEmpty] = useState(true);
 

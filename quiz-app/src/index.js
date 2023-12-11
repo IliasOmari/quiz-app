@@ -7,7 +7,7 @@ import { io } from "socket.io-client";
 
 import router from "./routes/route";
 const root = ReactDOM.createRoot(document.getElementById("root"));
-const socket = io("http://localhost:3001");
+const socket = io("https://quizserver-y6dq.onrender.com");
 
 export const socketContext = createContext();
 root.render(

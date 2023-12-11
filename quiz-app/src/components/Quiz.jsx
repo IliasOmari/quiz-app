@@ -10,7 +10,7 @@ import useSound from "use-sound";
 import Yay from "./yay.mp3";
 import { Link } from "react-router-dom";
 const Quiz = () => {
-  const socket = io("http://localhost:3001/player/party");
+  const socket = io("https://quizserver-y6dq.onrender.com/player/party");
   const { width, height } = useWindowSize();
   const { nameQuiz } = useParams();
   const [activeQuestion, setActiveQuestion] = useState(0);
